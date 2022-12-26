@@ -1,0 +1,14 @@
+syntax = "proto3";
+package stream;
+option go_package="/api;streamproto";
+service  Greeter {
+    rpc GetStream(StreamReqData) returns(stream StreamResData);
+    rpc PutStream(stream StreamReqData)returns(StreamResData);
+    rpc AllStream(stream StreamReqData)returns(stream StreamResData);
+}
+message StreamReqData{
+  string data=1;
+}
+message  StreamResData{
+  string data=1;
+}

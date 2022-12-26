@@ -1,0 +1,16 @@
+syntax="proto3";
+import "google/protobuf/timestamp.proto";
+option go_package="/api;helloproto";
+
+message Empty{
+   repeated Result data=1;
+   Gender g =2;
+   message Result{
+      string url=1;
+   }
+   map<string,string> mp=3;
+   google.protobuf.Timestamp tt=4;
+}
+enum Gender{
+   MALE = 0;
+}

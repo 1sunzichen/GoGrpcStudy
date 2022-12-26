@@ -1,0 +1,18 @@
+syntax = "proto3";
+import "base.proto";
+
+package helloworld.v1;
+//    protoc -I . helloworld.proto --go_out=:.
+option go_package="/api;metadataproto";
+service Greeter{
+  rpc SayHello(HelloRequest) returns(HelloReply);
+  rpc SayBase(Empty) returns(HelloReply);
+}
+message HelloRequest{
+  string name =1;
+}
+
+message HelloReply{
+  string message = 1; //1是编号不是值
+
+}
