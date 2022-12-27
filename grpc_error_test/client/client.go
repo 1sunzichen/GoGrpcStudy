@@ -5,6 +5,7 @@ import (
 	"context"
 	"fmt"
 	"google.golang.org/grpc"
+	"google.golang.org/grpc/status"
 	"google.golang.org/protobuf/types/known/timestamppb"
 	"time"
 )
@@ -31,11 +32,18 @@ func main(){
 
 	}
 	c:=errorproto.NewGreeterClient(conn)
-	r,err:=c.SayHello(context.Background(),&errorproto.HelloRequest{Name:"boddy"})
+	ctx,_:=context.WithTimeout(context.Background(),time.Second*2)
+	r,err:=c.SayHello(ctx,&errorproto.HelloRequest{Name:"boddy"})
 	if err!=nil{
-		panic(err)
+		st,ok:=status.FromError(err);
+		if !ok{
+			panic("解析error失败")
+		}
+		fmt.Println(st.Message())
+		fmt.Println(st.Code())
 	}
-	r,err=c.SayBase(context.Background(),&errorproto.Empty{
+
+	r,err=c.SayBase(ctx,&errorproto.Empty{
 		Data:[]*errorproto.Empty_Result{
 			{Url: "111"},
 			{Url:"www.baidu.com"},

@@ -5,18 +5,16 @@ import (
 	"context"
 	"fmt"
 	"google.golang.org/grpc"
-	"google.golang.org/grpc/codes"
 	"google.golang.org/grpc/metadata"
-	"google.golang.org/grpc/status"
 	"net"
-	"time"
 )
 
 type Server struct{}
 
 func (s *Server) SayHello(ctx context.Context,request *helloproto.HelloRequest)(*helloproto.HelloReply,error){
-	time.Sleep(5*time.Second)
-	return nil,status.Errorf(codes.NotFound,"记录未找到%v",request.Name)
+	return &helloproto.HelloReply{
+		Message: "京津冀"+request.Name,
+	},nil
 }
 func (s *Server) SayBase(ctx context.Context,request *helloproto.Empty)(*helloproto.HelloReply,error){
 	return &helloproto.HelloReply{
